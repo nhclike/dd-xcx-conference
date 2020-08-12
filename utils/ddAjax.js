@@ -1,9 +1,10 @@
-let app = getApp();
 
-let userId=app.globalData.userId;
 
 export function ddRequest(method = "POST", url, data) {
   var _this=this;
+  let app = getApp();
+
+  let userId=app.globalData.userId; 
   return new Promise((resolve, reject) => {
     dd.httpRequest({
       url: url,
@@ -15,18 +16,18 @@ export function ddRequest(method = "POST", url, data) {
             "userId":userId
       },
       success: function (res) {
-        console.log(res);
+        console.log('success',res);
         resolve(res)
       },
       fail: function (res) {
-        console.log(res);
+        console.log('fail',res);
         dd.redirectTo({
           url: '/pages/error/error'
       })
         reject(res)
       },
       complete: function (res) {
-        console.log(res);
+        console.log('complete',res);
         dd.hideLoading();
       }
     });

@@ -1,6 +1,6 @@
 //接口配置
 //const BASE_URL="http://4pdwtg.natappfree.cc";
-const BASE_URL="https://nblh.xsnls.com";
+const BASE_URL="https://courtding.nblhtech.com";
 //const BASE_URL="https://gzh.xsnls.com";
 
 

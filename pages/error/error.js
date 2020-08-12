@@ -4,8 +4,8 @@ Page({
     ...ErrorView,
     data: {
         errorData: {
-            type: 'noMeeting',
-            title: '暂无会议',
+            type: 'update',
+            title: '系统正在维护,请稍后再试',
             button: '刷新',
             onButtonTap: 'handleBack',
             href: '/pages/index/index'
