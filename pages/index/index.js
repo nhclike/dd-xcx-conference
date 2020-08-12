@@ -86,34 +86,23 @@ Page({
                 _this.setData({
                     authCode:res.authCode
                 })
-                
+                let params=JSON.stringify(
+                  {authCode: res.authCode}
+                )
                 //根据授权码换取用户信息(pc端不行)
-                dd.httpRequest({
-                    url: loginUrl,
-                    method: 'POST',
-                    data: {
-                        authCode: res.authCode
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        
-                        let userInfo = res.data.result;
-                        console.log("success---userInfo",userInfo);
-                        //全局存储用户id
-                        app.globalData.userId=userInfo.userId;
-                        //发钉
-                        //_this.sendDing()
-                        //根据用户id查询当前会议
-                        _this.getConfList();
-
-                    },
-                    fail: function(res) {
-                        dd.alert({content: JSON.stringify(res)});
-                    },
-                    complete: function(res) {
-                    }
-                    
-                });
+                ddRequest('post',loginUrl,params).then((res)=>{
+                  let userInfo = res.data.result;
+                  console.log("success---userInfo",userInfo);
+                  //全局存储用户id
+                  app.globalData.userId=userInfo.userId;
+                  //发钉
+                  //_this.sendDing()
+                  //根据用户id查询当前会议
+                  _this.getConfList();
+                }).catch((err)=>{
+                  console.log(err);
+                })
+          
             },
             fail: (err)=>{
                 dd.alert({
@@ -146,21 +135,12 @@ Page({
       dd.showLoading({
         content: '加载中...',
       });
-      dd.httpRequest({
-          headers:{
-          "Content-Type": "application/json",
-          "userId":userId
-        },
-          url: getConfListOnline, 
-          method: 'POST',
-          data:JSON.stringify(
+      ddRequest('post',getConfListOnline,JSON.stringify(
             {
               userId:userId,
             }
-          ) ,
-          dataType: 'json',
-          success: function(res) {
-              console.log("success---getConfList",res);
+          )).then((res)=>{
+            console.log("success---getConfList",res);
                   //如果此人没有权限直接进入error页面
                 // let page='/pages/error/error';
                 // dd.navigateTo({ url: page });
@@ -175,15 +155,9 @@ Page({
                   'isBlank':true
                 })
               }
-          },
-          fail: function(res) {
-          },
-          complete: function(res) {
-              dd.hideLoading();
-          }
-          
-      });
-      
+          }).catch((err)=>{
+            console.log(err);
+          })
     },
     sendDing(){
       let userId=app.globalData.userId;

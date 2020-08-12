@@ -13,11 +13,13 @@ Page({
     },
     handleBack() {
         dd.showToast({
-          content: 'back to pages/index in 1s',
+          content: '正在加载',
           success: (res) => {
             setTimeout(() => {
-                dd.navigateBack();
-            }, 1000);
+                dd.reLaunch({
+                    url:'/pages/index/index'
+                });
+            }, 200);
           },
         });
     }

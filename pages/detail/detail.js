@@ -1,4 +1,6 @@
-import { getConfDetail } from "../../utils/config"
+import { getConfDetail } from "../../utils/config";
+import { ddRequest } from "../../utils/ddAjax";
+
 let app = getApp();
 
 Page({
@@ -79,34 +81,22 @@ Page({
     dd.showLoading({
       content: '加载中...',
     });
-    dd.httpRequest({
-        headers:{
-          "Content-Type": "application/json",
-          "userId":userId
-        },
-        url: getConfDetail,
-        method: 'POST',
-        data: JSON.stringify({
+
+    ddRequest('post',getConfDetail, JSON.stringify({
             conferenceId: confId,
             type:type
-        }),
-        dataType: 'json',
-        success: function(res) {
+        })).then((res)=>{
             console.log("success---getConfDetail",res);
             const confData=[res.data.result.confData];
             const topicList=res.data.result.topicList;
             _this.setData({
               confData,
               topicList
-            })
-        },
-        fail: function(res) {
-        },
-        complete: function(res) {
-            dd.hideLoading();
-        }
-        
-    });
+            })    
+        }).catch((err)=>{
+          console.log(err);
+        })
+   
   }
  
 })

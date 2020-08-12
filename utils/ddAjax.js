@@ -1,4 +1,9 @@
-function ddRequest(method = "GET", url, data, onComplete) {
+let app = getApp();
+
+let userId=app.globalData.userId;
+
+export function ddRequest(method = "POST", url, data) {
+  var _this=this;
   return new Promise((resolve, reject) => {
     dd.httpRequest({
       url: url,
@@ -6,20 +11,26 @@ function ddRequest(method = "GET", url, data, onComplete) {
       data: data,
       dataType: 'json',
       headers:{
-            'a':1
-          },
+           "Content-Type": "application/json",
+            "userId":userId
+      },
       success: function (res) {
-        resolve(res.data)
+        console.log(res);
+        resolve(res)
       },
       fail: function (res) {
+        console.log(res);
+        dd.redirectTo({
+          url: '/pages/error/error'
+      })
         reject(res)
       },
       complete: function (res) {
-        if (onComplete && typeof onComplete == "function") {
-          onComplete(res)
-        }
+        console.log(res);
+        dd.hideLoading();
       }
     });
   })
 }
+
 

@@ -2,6 +2,7 @@ let app = getApp();
 const PAGENUM=5; //每次拿5条数据
 import { getConfListHistory } from "../../utils/config"
 import ErrorView from '../../components/error-view';
+import { ddRequest } from "../../utils/ddAjax";
 
 Page({
   ...ErrorView,
@@ -59,9 +60,6 @@ Page({
       content: "正在刷新",
       success: (res) => {
         setTimeout(() => {
-          // dd.reLaunch({
-          //   url: '/pages/historyConference/historyConference'
-          //   }) 
             _this.getConfList(); 
         },20);
       },
@@ -118,48 +116,31 @@ Page({
     var _this=this;
     let userId=app.globalData.userId;
     dd.showLoading({
-      content: '加载中...',
+      content: '加载中...'
     });
-    dd.httpRequest({
-        headers:{
-          "Content-Type": "application/json",
-          "userId":userId
-        },
-        url: getConfListHistory,
-        method: 'POST',
-        data: JSON.stringify({
+    let params= JSON.stringify({
             userId:userId,
             pageNo:_this.data.curPage,    //默认显示前5条---主要用于历史会议的分页显示
             type:_this.data.type    //0党组会,1审委会
-        }),
-        dataType: 'json',
-        success: function(res) {
-            console.log("success---getConfList",res);
-            
-            if(!!res.data.result){
-              let confArr=res.data.result.rows;
-              let totalPage=res.data.result.total;
-              var confData=_this.data.confList.concat(confArr);
-              _this.setData({
-                'confList':confData,
-                totalPage
-              })
-            }else{
-              _this.setData({
-                'isBlank':true
-              })
-            }
-           
-            
-        },
-        fail: function(res) {
-        },
-        complete: function(res) {
-            dd.hideLoading();
-        }
-        
     });
-    
+    ddRequest('post',getConfListHistory,params).then((res)=>{
+      console.log("success---getConfList",res);
+      if(!!res.data.result){
+        let confArr=res.data.result.rows;
+        let totalPage=res.data.result.total;
+        var confData=_this.data.confList.concat(confArr);
+        _this.setData({
+          'confList':confData,
+          totalPage
+        })
+      }else{
+        _this.setData({
+          'isBlank':true
+        })
+      }
+    }).catch((err)=>{
+      console.log(err);
+    })
   },
   //历史会议较多时分页加载每次加载5个
   loadMore(){
