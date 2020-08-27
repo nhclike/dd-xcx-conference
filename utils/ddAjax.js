@@ -5,6 +5,7 @@ export function ddRequest(method = "POST", url, data) {
   let app = getApp();
 
   let userId=app.globalData.userId; 
+  //let userId='eyJjb3VydENvZGUiOiIxMzAwQjAwIiwibW9iaWxlIjoiMTU4NTgxMjU5MTQifQ==';
   return new Promise((resolve, reject) => {
     dd.httpRequest({
       url: url,

@@ -70,7 +70,7 @@ Page({
     onLoad(){
         this.getUserId();
 
-       
+      // this.getConfList();
         
     },
     onShow(){
@@ -117,8 +117,11 @@ Page({
       //审委会(隐藏详情入口)
      let confId=e.target.dataset.value;
      let type=e.target.dataset.type;
-     let page='/pages/detail/detail?confId='+confId+'&type='+type;
+     if(type==0){
+      let page='/pages/detail/detail?confId='+confId+'&type='+type;
       dd.navigateTo({ url: page });
+     }
+     
     },
     // 下拉刷新事件
     onPullDownRefresh() {
@@ -132,6 +135,7 @@ Page({
     getConfList(){
       var _this=this;
       let userId=app.globalData.userId;
+      //let userId='eyJjb3VydENvZGUiOiIxMzAwQjAwIiwibW9iaWxlIjoiMTU4NTgxMjU5MTQifQ'
       dd.showLoading({
         content: '加载中...',
       });
@@ -153,6 +157,7 @@ Page({
               else{
                 _this.setData({
                   'isBlank':true
+
                 })
               }
           }).catch((err)=>{

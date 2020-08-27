@@ -78,8 +78,11 @@ Page({
     //审委会(隐藏详情入口)
     let confId=e.target.dataset.value;
     let type=e.target.dataset.type;
-    let page='/pages/detail/detail?confId='+confId+'&type='+type;
-    dd.navigateTo({ url: page });
+    if(type==0){
+      let page='/pages/detail/detail?confId='+confId+'&type='+type;
+      dd.navigateTo({ url: page });
+    }
+    
   },
   // tab切换事件
   toggleTab(e){

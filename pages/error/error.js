@@ -5,7 +5,7 @@ Page({
     data: {
         errorData: {
             type: 'update',
-            title: '系统正在维护,请稍后再试',
+            title: '系统正在维护,请稍候再试',
             button: '刷新',
             onButtonTap: 'handleBack',
             href: '/pages/index/index'

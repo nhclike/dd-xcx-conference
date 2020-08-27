@@ -1,10 +1,7 @@
 //接口配置
-//const BASE_URL="http://4pdwtg.natappfree.cc";
-const BASE_URL="https://courtding.nblhtech.com";
-//const BASE_URL="https://gzh.xsnls.com";
+//const BASE_URL="https://courtding.nblhtech.com";
+const BASE_URL="https://courtding.xsnls.com";
 
-
-//const BASE_URL="http://172.19.82.143:8080";
 export const configAjaxObj={
   timeout:30000
 }
